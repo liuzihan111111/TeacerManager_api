@@ -159,9 +159,7 @@
   method
     delete
   params
-    {
-      _id: string 学院id
-    }
+   
   result
     成功
       {
