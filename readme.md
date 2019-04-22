@@ -2,7 +2,7 @@
 
 ```bash
 
-    http:localhost:3000
+    http://localhost:3000
 
 ```
 # 后台接口
