@@ -62,9 +62,7 @@
   method
     delete
   params
-    {
-      _id: string 管理员id
-    }
+
   result
     成功
       {
@@ -83,7 +81,7 @@
     post
   params
     {
-      _id: string 管理员id （参数）
+      id: string 管理员id （参数）
       admin_id
       admin_pwd
       admin_name

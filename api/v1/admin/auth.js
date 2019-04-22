@@ -35,7 +35,7 @@ router.post('/admin/creatAdmin', async (req, res) => {
     console.log(req.body);
     //获取传递的参数
     const p = new Admin({
-      admin_id: req.body.admin_login,
+      admin_id: req.body.admin_id,
       admin_pwd: "000000",
       admin_name: req.body.admin_name,
       major_name: req.body.major_name,
@@ -59,7 +59,7 @@ router.delete('/admin/delete/:id', async (req, res) => {
   try {
     //获取id
     const id = req.params.id;
-    //console.log(id);
+    console.log(id);
     await Admin.findOneAndDelete({
       _id: id,
     })
@@ -86,6 +86,7 @@ router.post('/admin/ModifyAdmin', async (req, res) => {
       admin_name: req.body.admin_name,
       major_name: req.body.major_name,
     })
+
     res.json({
       code: 1,
       info: "修改成功",
