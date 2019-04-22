@@ -1,6 +1,6 @@
 const express = require('express');
 //引入数据库表
-const { Admin, Major, Teacher } = require('../../models');
+const { Admin, Major, Teacher } = require('../../../models/index');
 const router = express.Router();
 
 /* *****管理员操作****** */

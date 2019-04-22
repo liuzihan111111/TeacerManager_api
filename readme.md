@@ -13,7 +13,7 @@
 
 1.管理员列表
   url
-    /api/vi/admin/AdminList
+    /api/v1/admin/AdminList
   method
     get
   params
@@ -34,7 +34,7 @@
       }
 2. 新增管理员
   url
-    /api/vi/admin/creatAdmin
+    /api/v1/admin/creatAdmin
   method
     post
   params
@@ -58,7 +58,7 @@
       }
 3. 删除管理员信息
   url
-    /api/vi/admin/delete/:id
+    /api/v1/admin/delete/:id
   method
     delete
   params
@@ -78,7 +78,7 @@
       }
 4. 修改管理员信息
   url
-    /api/vi/admin/ModifyAdmin
+    /api/v1/admin/ModifyAdmin
   method
     post
   params
@@ -112,7 +112,7 @@
 
 1.学院列表
   url
-    /api/vi/majorList
+    /api/v1/majorList
   method
     get
   params
@@ -133,7 +133,7 @@
       }
 2. 添加学院信息（不能重复）
   url
-    /api/vi/majorAdd
+    /api/v1/majorAdd
   method
     post
   params
@@ -157,7 +157,7 @@
       }
 3. 删除学院信息
   url
-    /api/vi/majorDel/:id
+    /api/v1/majorDel/:id
   method
     delete
   params
@@ -177,7 +177,7 @@
       }
 4. 修改学院信息
   url
-    /api/vi/majorMod/:id
+    /api/v1/majorMod/:id
   method
     post
   params
@@ -207,7 +207,7 @@
 
 1.教师基本信息列表
   url
-    /api/vi/teacherList
+    /api/v1/teacherList
   method
     get
   params
@@ -228,7 +228,7 @@
       }
 2. 添加教师信息
   url
-    /api/vi/teacherAdd
+    /api/v1/teacherAdd
   method
     post
   params
@@ -262,7 +262,7 @@
       }
 3. 删除教师信息
   url
-    /api/vi/teacherDel/:id
+    /api/v1/teacherDel/:id
   method
     delete
   params
@@ -282,7 +282,7 @@
       }
 4. 修改教师信息
   url
-    /api/vi/teacherMod/:id
+    /api/v1/teacherMod/:id
   method
     post
   params
