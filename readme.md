@@ -239,7 +239,7 @@
       polity:String, //政治面貌
       edu:String, //学历
       major_name:String,
-      duty:String, //职务
+      duty:String, //职称
       tel:String,//电话
       remark:String //备注
     }
