@@ -207,7 +207,15 @@
   method
     get
   params
-    无
+    page 页码
+    per 每页显示的数量
+    .............
+    tid
+    tname
+    edu
+    major_name
+    duty
+    ........... 查询条件（模糊查询）
   result
     成功
       {

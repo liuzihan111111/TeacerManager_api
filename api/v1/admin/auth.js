@@ -206,25 +206,25 @@ router.get('/teacherList', async (req, res) => {
    */
   try {
     const quertInfo = {}
-    if(req.query.tid) {
+    if (req.query.tid) {
       // 按工号查询
-      quertInfo.tid = new RegExp (req.query.tid)
+      quertInfo.tid = new RegExp(req.query.tid)
     }
-    if(req.query.tname) {
+    if (req.query.tname) {
       // 按姓名查询
-      quertInfo.tname = new RegExp (req.query.tname)
+      quertInfo.tname = new RegExp(req.query.tname)
     }
-    if(req.query.edu) {
+    if (req.query.edu) {
       // 按学历查询
-      quertInfo.edu = new RegExp (req.query.edu)
+      quertInfo.edu = new RegExp(req.query.edu)
     }
-    if(req.query.major_name) {
+    if (req.query.major_name) {
       // 按院系查询
-      quertInfo.major_name = new RegExp (req.query.major_name)
+      quertInfo.major_name = new RegExp(req.query.major_name)
     }
-    if(req.query.duty) {
+    if (req.query.duty) {
       // 按职称查询
-      quertInfo.duty = new RegExp (req.query.duty)
+      quertInfo.duty = new RegExp(req.query.duty)
     }
     FuzzyQuery(req, quertInfo, res)
   } catch (error) {
@@ -237,9 +237,10 @@ router.get('/teacherList', async (req, res) => {
 })
 async function FuzzyQuery(req, queryInfo, res) {
   const allCount = await Teacher.countDocuments(queryInfo)
-  // console.log(allCount)
-  const page = req.query.page || 1;
-  const per = req.body.per || 20;
+  console.log(allCount)
+  console.log(req)
+  const page = req.query.page * 1 || 1;
+  const per = req.query.per * 1 || 10;
   const teachers = await Teacher.find(queryInfo).skip((page - 1) * per).limit(per);
   const pageCount = Math.ceil(allCount / per);
   res.json({
@@ -321,30 +322,30 @@ router.post('/teacherMod/:id', async (req, res) => {
 })
 
 //管理员后台登录
-router.post('/admin_login', (req,res)=>{
+router.post('/admin_login', (req, res) => {
   try {
     console.log(req.body)
-    if(req.body.username =='admin' && req.body.password=='admin'){
+    if (req.body.username == 'admin' && req.body.password == 'admin') {
       res.json({
-        code:1,
-        status:'success',
-        info:'登录成功',
-        mess:req.body
+        code: 1,
+        status: 'success',
+        info: '登录成功',
+        mess: req.body
       })
-    }else{
+    } else {
       res.json({
-        code:0,
-        status:'error',
-        info:'用户名或密码有误',
-        mess:req.body
+        code: 0,
+        status: 'error',
+        info: '用户名或密码有误',
+        mess: req.body
       })
     }
 
   } catch (error) {
     res.json({
-      code:0,
-      status:error,
-      info:'登录失败'
+      code: 0,
+      status: error,
+      info: '登录失败'
     })
   }
 
