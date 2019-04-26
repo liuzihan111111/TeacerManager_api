@@ -362,7 +362,6 @@
     post
   params
     {
-      cid   课程号
       cname  课程名
       tid   教师工号
       tname   教师名
@@ -411,7 +410,6 @@
     post
   params
     {
-      cid   课程号
       cname  课程名
       tid   教师工号
       tname   教师名

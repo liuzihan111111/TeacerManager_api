@@ -2,10 +2,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const ClassSchema = new Schema({
-  cid: {   //课程号
-    type: String,
-    required: true
-  },
+  /*  cid: {   //课程号
+     type: String,
+     required: true
+   }, */
   cname: {   //课程名
     type: String,
     required: true

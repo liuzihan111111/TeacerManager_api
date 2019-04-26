@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
-const Sechma = mongoose.Sechma
+const Schema = mongoose.Schema
 
-const SalarySechma = new Sechma({
+const SalarySchema = new Schema({
   tid: {  // 教师工号
     type: String,
     required: true
@@ -18,5 +18,5 @@ const SalarySechma = new Sechma({
   mark: String // 备注
 })
 
-const Salary = mongoose.model('salary', SalarySechma);
+const Salary = mongoose.model('salary', SalarySchema);
 module.exports = Salary;
