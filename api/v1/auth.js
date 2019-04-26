@@ -375,15 +375,15 @@ router.get('/schedule/list', async (req, res) => {
     }
     if (req.query.cname) {
       // 按课程名
-      quertInfo.edu = new RegExp(req.query.cname)
+      quertInfo.cname = new RegExp(req.query.cname)
     }
     if (req.query.ClassPlace) {
       // 按上课地点
-      quertInfo.major_name = new RegExp(req.query.ClassPlace)
+      quertInfo.ClassPlace = new RegExp(req.query.ClassPlace)
     }
     if (req.query.Student) {
       // 按班级查询
-      quertInfo.duty = new RegExp(req.query.Student)
+      quertInfo.Student = new RegExp(req.query.Student)
     }
     ScheduleQuery(req, quertInfo, res)
   } catch (error) {
