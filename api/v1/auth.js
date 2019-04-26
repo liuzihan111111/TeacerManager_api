@@ -507,8 +507,6 @@ router.post('/reg',async (req,res)=>{
       })
     }
   }
-
-
 })
 
 //登录接口
