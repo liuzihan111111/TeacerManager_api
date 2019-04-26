@@ -320,3 +320,118 @@
       }
 
 ```
+。。。。。。。。。。。。。。。。。。
+
+## 四、排课信息操作
+
+```bash
+
+1.排课信息列表
+  url
+    /api/v1/schedule/list
+  method
+    get
+  params
+    page 页码
+    per 每页显示的数量
+    .............
+    tid  教师工号
+    tname   教师名字
+    cname   课程名
+    ClassPlace   上课教室
+    Student    上课班级
+    ........... 查询条件（模糊查询）
+  result
+    成功
+      {
+        code:1,
+        status:'success',
+        info:'成功',
+        result:list
+      }
+    失败
+      {
+        code:0,
+        status:'error',
+        info:error
+      }
+2. 添加排课信息
+  url
+    /api/v1/schedule/add
+  method
+    post
+  params
+    {
+      cid   课程号
+      cname  课程名
+      tid   教师工号
+      tname   教师名
+      ClassTime   上课时间
+      ClassPlace  上课地点
+      ClassHour   总课时
+      Student    上课班级
+    }
+  result
+    成功
+      {
+        code: 1,
+        status: "success",
+        info: "添加成功"
+      }
+    失败
+      {
+        code: 0,
+        status: 'error',
+        info: error,
+      }
+3. 删除排课信息
+  url
+    /api/v1/schedule/delete/:id
+  method
+    delete
+  params
+    {
+      _id
+    }
+  result
+    成功
+      {
+        code: 1,
+        info: '删除成功',
+      }
+    失败
+      {
+        code: 0,
+        info: error,
+      }
+4. 修改排课信息
+  url
+    /api/v1/schedule/modify/:id
+  method
+    post
+  params
+    {
+      cid   课程号
+      cname  课程名
+      tid   教师工号
+      tname   教师名
+      ClassTime   上课时间
+      ClassPlace  上课地点
+      ClassHour   总课时
+      Student    上课班级
+    }
+  result
+    成功
+      {
+        code: 1,
+        info: "修改成功",
+        mess: req.body,  //返回修改后的数据
+      }
+    失败
+      {
+        code: 0,
+        mess: "修改失败",
+        info: error,
+      }
+
+```
