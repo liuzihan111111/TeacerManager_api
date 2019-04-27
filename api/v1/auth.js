@@ -326,24 +326,53 @@ router.post('/teacherMod/:id', async (req, res) => {
   }
 })
 
-//管理员后台登录
-router.post('/admin_login', (req, res) => {
+//登录
+router.post('/admin_login', async (req, res) => {
   try {
-    console.log(req.body)
+    // console.log(req.body)
+    if (!req.body.username || !req.body.password) {
+      res.json({
+        code: 0,
+        status: 'error',
+        info: '用户名或密码不能为空！'
+      })
+      return;
+    }
     if (req.body.username == 'admin' && req.body.password == 'admin') {
       res.json({
         code: 1,
         status: 'success',
         info: '登录成功',
+        type: 0,
         mess: req.body
       })
     } else {
-      res.json({
-        code: 0,
-        status: 'error',
-        info: '用户名或密码有误',
-        mess: req.body
-      })
+
+      const detail = await Teacher.findOne({ 'tid': req.body.username })
+      if (detail) {
+        // console.log(count)
+        if (detail.tpwd == req.body.password) {
+          res.json({
+            code: 1,
+            status: 'success',
+            info: '登录成功',
+            type: 1,
+            mess: req.body
+          })
+        } else {
+          res.json({
+            code: 0,
+            status: 'error',
+            info: '密码有误',
+          })
+        }
+      } else {
+        res.json({
+          code: 0,
+          status: 'error',
+          info: '用户名有误',
+        })
+      }
     }
 
   } catch (error) {
@@ -480,35 +509,19 @@ router.post('/schedule/modify/:id', async (req, res) => {
   }
 })
 
+/* router.post('/login', async (req, res) => {
+  try {
+    if (){
+
+    }else{
+
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}) */
 
 /*
-//注册接口
-router.post('/reg',async (req,res)=>{
-  //判断用户名是否存在
-  const userCount=await User.countDocuments({userName:req.body.userName});
-  if(userCount>0){
-    res.json({
-      status:'error',
-      info:'用户名已存在'
-    })
-  }else{
-    try {
-      const user=new User(req.body);
-      await user.save();
-      res.json({
-        status:'success',
-        info:'注册成功'
-      })
-
-    } catch (error) {
-      res.json({
-        status:'error',
-        info:error
-      })
-    }
-  }
-})
-
 //登录接口
 router.post('/login',async (req,res)=>{
   try {
@@ -532,7 +545,6 @@ router.post('/login',async (req,res)=>{
         info:'登录失败'
       })
     }
-
   } catch (error) {
     res.json({
       st5atus:error,
