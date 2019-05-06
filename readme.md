@@ -347,7 +347,11 @@
         code:1,
         status:'success',
         info:'成功',
-        result:list
+        info: {
+          allCount: allCount,
+          pageCount: pageCount,
+          page: 1,
+          list: schedule
       }
     失败
       {
@@ -433,3 +437,121 @@
       }
 
 ```
+
+。。。。。。。。。。。。。。。。。。
+
+## 五、薪资信息操作
+
+```bash
+
+1.薪资列表
+  url
+    /api/v1/salary/list
+  method
+    get
+  params
+    page 页码
+    per 每页显示的数量
+    .............
+    tid  教师工号
+    ........... 查询条件（模糊查询）
+  result
+    成功
+      {
+        code:1,
+        status:'success',
+        info: {
+          allCount: allCount,
+          pageCount: pageCount,
+          page: 1,
+          list: salary
+        }
+      }
+    失败
+      {
+        code:0,
+        status:'error',
+        info:error
+      }
+2. 添加薪资信息
+  url
+    /api/v1/salary/add
+  method
+    post
+  params
+  除教师工号为string，其他都为number
+    {
+      tid:String   教师工号
+      basePay:Number  基本工资
+      ClassFees:Number   课时费
+      PerformanceSalary:Number   效绩工资
+      bonus: Number  奖金
+      allowance: Number   津贴
+      other: Number   其他
+      mark: String  备注
+    }
+  result
+    成功
+      {
+        code: 1,
+        status: "success",
+        info: "添加成功"
+      }
+    失败
+      {
+        code: 0,
+        status: 'error',
+        info: error,
+      }
+3. 删除薪资信息
+  url
+    /api/v1/salary/delete/:id
+  method
+    delete
+  params
+    {
+      _id
+    }
+  result
+    成功
+      {
+        code: 1,
+        info: '删除成功',
+      }
+    失败
+      {
+        code: 0,
+        info: error,
+      }
+4. 修改薪资信息
+  url
+    /api/v1/salary/modify/:id
+  method
+    post
+  params
+    {
+      tid:String   教师工号
+      basePay:Number  基本工资
+      ClassFees:Number   课时费
+      PerformanceSalary:Number   效绩工资
+      bonus: Number  奖金
+      allowance: Number   津贴
+      other: Number   其他
+      mark: String  备注
+    }
+  result
+    成功
+      {
+        code: 1,
+        info: "修改成功",
+        mess: req.body,  //返回修改后的数据
+      }
+    失败
+      {
+        code: 0,
+        mess: "修改失败",
+        info: error,
+      }
+
+```
+
