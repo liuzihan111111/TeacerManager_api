@@ -556,14 +556,24 @@ async function SalaryQuery(req, queryInfo, res) {
 //薪资信息添加
 router.post('/salary/add', async (req, res) => {
   try {
-    // let obj = { ...req.body };
-    var salary = new Salary(req.body)
-    await salary.save();
-    res.json({
-      code: 1,
-      status: "success",
-      info: "添加成功",
-    })
+    console.log(req.body)
+    const count = await Salary.countDocuments({ tid: req.body.tid })
+    console.log("111" + count)
+    if (count) {
+      res.json({
+        code: 2,
+        status: 'error',
+        info: "该教师工号已经存在"
+      })
+    } else {
+      var salary = new Salary(req.body)
+      await salary.save();
+      res.json({
+        code: 1,
+        status: "success",
+        info: "添加成功",
+      })
+    }
   } catch (error) {
     res.json({
       code: 0,
