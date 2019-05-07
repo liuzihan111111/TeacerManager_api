@@ -1,6 +1,6 @@
 const express = require('express');
 //引入数据库表
-const { Admin, Major, Teacher, Schedule, Salary } = require('../../models/index');
+const { Admin, Major, Teacher, Schedule, Salary, Project } = require('../../models/index');
 const router = express.Router();
 
 /* *****管理员操作****** */
@@ -556,7 +556,7 @@ async function SalaryQuery(req, queryInfo, res) {
 //薪资信息添加
 router.post('/salary/add', async (req, res) => {
   try {
-    console.log(req.body)
+    // console.log(req.body)
     const count = await Salary.countDocuments({ tid: req.body.tid })
     console.log("111" + count)
     if (count) {
@@ -610,6 +610,119 @@ router.post('/salary/modify/:id', async (req, res) => {
     var id = req.params.id;
     // console.log(id)
     await Salary.findByIdAndUpdate({
+      _id: id,
+    }, req.body);
+
+    res.json({
+      code: 1,
+      info: "修改成功",
+      mess: req.body,  //返回修改后的数据
+    })
+
+  } catch (error) {
+    res.json({
+      code: 0,
+      mess: "修改失败",
+      info: error,
+    })
+  }
+})
+
+/* ****************项目信息管理****************** */
+//项目列表
+router.get('/project/list', async (req, res) => {
+  /*
+    page 页码
+    per 每页显示的数量
+    quertInfo{} 查询条件（模糊查询）
+   */
+  try {
+    const quertInfo = {}
+    if (req.query.tid) {
+      // 按工号查询
+      quertInfo.tid = new RegExp(req.query.tid)
+    }
+    if (req.query.subject_title) {
+      // 按项目名
+      quertInfo.subject_title = new RegExp(req.query.subject_title)
+    }
+    ProjectQuery(req, quertInfo, res)
+  } catch (error) {
+    res.json({
+      code: 0,
+      status: 'error',
+      info: error
+    })
+  }
+})
+async function ProjectQuery(req, queryInfo, res) {
+  const allCount = await Project.countDocuments(queryInfo)
+  // console.log(allCount)
+  // console.log(req)
+  const page = req.query.page * 1 || 1;
+  const per = req.query.per * 1 || 10;
+  const project = await Project.find(queryInfo).skip((page - 1) * per).limit(per);
+  const pageCount = Math.ceil(allCount / per);
+  res.json({
+    code: 1,
+    status: 'success',
+    info: {
+      allCount: allCount,
+      pageCount: pageCount,
+      page: 1,
+      list: project
+    }
+  })
+}
+
+
+//项目信息添加
+router.post('/project/add', async (req, res) => {
+  try {
+    // console.log(req.body)
+    var project = new Project(req.body)
+    await project.save();
+    res.json({
+      code: 1,
+      status: "success",
+      info: "添加成功",
+    })
+  } catch (error) {
+    res.json({
+      code: 0,
+      status: 'error',
+      info: error,
+    })
+  }
+})
+
+//项目信息删除
+router.delete('/project/delete/:id', async (req, res) => {
+  try {
+    var id = req.params.id;
+    await Project.findByIdAndDelete({ _id: id });
+
+    res.json({
+      code: 1,
+      info: '删除成功'
+    })
+
+  } catch (error) {
+    res.json({
+      code: 0,
+      info: error
+    })
+  }
+
+})
+
+//修改项目信息
+router.post('/project/modify/:id', async (req, res) => {
+  // console.log(req.body)
+  try {
+    var id = req.params.id;
+    // console.log(id)
+    await Project.findByIdAndUpdate({
       _id: id,
     }, req.body);
 

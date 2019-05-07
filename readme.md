@@ -561,3 +561,125 @@
 
 ```
 
+。。。。。。。。。。。。。。。。。。
+
+## 六、项目信息操作
+
+```bash
+
+1.项目列表
+  url
+    /api/v1/project/list
+  method
+    get
+  params
+    page 页码
+    per 每页显示的数量
+    .............
+    tid  教师工号
+    subject_title  项目名
+    ........... 查询条件（模糊查询）
+  result
+    成功
+      {
+        code:1,
+        status:'success',
+        info: {
+          allCount: allCount,
+          pageCount: pageCount,
+          page: 1,
+          list: project
+        }
+      }
+    失败
+      {
+        code:0,
+        status:'error',
+        info:error
+      }
+2. 申请项目
+  url
+    /api/v1/project/add
+  method
+    post
+  params
+  {
+	"tid":"T0003",            工号
+	"tname":"王莉",           教师名
+	"subject_title":"111",    项目名
+	"subject_time":"300",     时长
+	"subject_funding":10000,  经费
+	"subject_desc":"描述",    项目描述
+	"check":false,            审核状态
+	"apply_time":"2018/2/2",  申请时间
+	"check_time":"" ,          审核时间
+  "complete":false           是否完成
+	
+}
+  result
+    成功
+      {
+        code: 1,
+        status: "success",
+        info: "添加成功"
+      }
+    失败
+      {
+        code: 0,
+        status: 'error',
+        info: error,
+      }
+3. 删除项目信息
+  url
+    /api/v1/project/delete/:id
+  method
+    delete
+  params
+    {
+      _id
+    }
+  result
+    成功
+      {
+        code: 1,
+        info: '删除成功',
+      }
+    失败
+      {
+        code: 0,
+        info: error,
+      }
+4. 修改项目信息
+  url
+    /api/v1/project/modify/:id
+  method
+    post
+  params
+    {
+      "tid":"T0003",
+	    "tname":"王莉",
+	    "subject_title":"111",
+	    "subject_time":"300",
+	    "subject_funding":10000,
+	    "subject_desc":"描述",
+	    "check":false,
+	    "apply_time":"2018/2/2",
+	    "check_time":"",
+	    "complete":false
+    }
+  result
+    成功
+      {
+        code: 1,
+        info: "修改成功",
+        mess: req.body,  //返回修改后的数据
+      }
+    失败
+      {
+        code: 0,
+        mess: "修改失败",
+        info: error,
+      }
+
+```
+

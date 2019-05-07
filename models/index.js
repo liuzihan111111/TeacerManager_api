@@ -6,6 +6,7 @@ const Major = require('./major');  //院系表
 const Teacher = require('./teacher'); //教师表
 const Schedule = require('./schedule'); //排课信息表
 const Salary = require('./salary'); // 薪资表
+const Project = require('./project'); //项目表
 
 
 
@@ -17,5 +18,6 @@ module.exports = {
   Major,
   Teacher,
   Schedule,
-  Salary
+  Salary,
+  Project
 }
