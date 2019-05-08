@@ -610,7 +610,7 @@
 	"subject_time":"300",     时长
 	"subject_funding":10000,  经费
 	"subject_desc":"描述",    项目描述
-	"check":false,            审核状态
+	"check"：0,            // 审核状态  0未审核，1审核通过，2审核不通过
 	"apply_time":"2018/2/2",  申请时间
 	"check_time":"" ,          审核时间
   "complete":false           是否完成
@@ -665,7 +665,8 @@
 	    "check":false,
 	    "apply_time":"2018/2/2",
 	    "check_time":"",
-	    "complete":false
+	    "complete":"",
+      "mark":审核说明
     }
   result
     成功

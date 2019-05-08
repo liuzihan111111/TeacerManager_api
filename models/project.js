@@ -17,10 +17,11 @@ const projectSchema = new Schema({
   subject_time: String,  // 时长
   subject_funding: Number, // 经费
   subject_desc: String, // 科研描述
-  check: Boolean,  // 审核状态
+  check: Number,  // 审核状态  0未审核，1审核通过，2审核不通过
   apply_time: String, // 申请时间
   check_time: String, // 审核时间
-  complete: Boolean  // 是否完成
+  complete: String,  // 是否完成
+  mark: String  // 审核说明
 }, {
     timestamps: true,
   })
