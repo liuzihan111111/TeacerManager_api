@@ -357,7 +357,8 @@ router.post('/admin_login', async (req, res) => {
             status: 'success',
             info: '登录成功',
             type: 1,
-            mess: req.body
+            mess: req.body,
+            allmess: detail
           })
         } else {
           res.json({
@@ -370,7 +371,7 @@ router.post('/admin_login', async (req, res) => {
         res.json({
           code: 0,
           status: 'error',
-          info: '用户名有误',
+          info: '用户名不存在',
         })
       }
     }
