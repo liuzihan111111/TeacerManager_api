@@ -613,7 +613,8 @@
 	"check"：0,            // 审核状态  0未审核，1审核通过，2审核不通过
 	"apply_time":"2018/2/2",  申请时间
 	"check_time":"" ,          审核时间
-  "complete":false           是否完成
+  "complete":string           进度
+   mark: String  // 审核说明
 	
 }
   result
