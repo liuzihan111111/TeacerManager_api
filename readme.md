@@ -137,6 +137,7 @@
   params
     {
       major_name: string,  院系名
+      major_dec
     }
   result
     成功

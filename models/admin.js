@@ -11,7 +11,7 @@ const adminSchema = new Schema({
     required: true
   },
   major_name: {
-    type: mongoose.SchemaTypes.String
+    type: String,
   },
   type: Number
 })

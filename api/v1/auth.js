@@ -3,17 +3,82 @@ const express = require('express');
 const { Admin, Major, Teacher, Schedule, Salary, Project } = require('../../models/index');
 const router = express.Router();
 
+//登录
+router.post('/admin_login', async (req, res) => {
+  try {
+    // console.log(req.body)
+    if (!req.body.username || !req.body.password) {
+      res.json({
+        code: 0,
+        status: 'error',
+        info: '用户名或密码不能为空！'
+      })
+      return;
+    }
+    if (req.body.username == 'admin' && req.body.password == 'admin') {
+      res.json({
+        code: 1,
+        status: 'success',
+        info: '登录成功',
+        type: 0,
+        mess: req.body
+      })
+    } else {
+
+      const detail = await Teacher.findOne({ 'tid': req.body.username })
+      if (detail) {
+        // console.log(count)
+        if (detail.tpwd == req.body.password) {
+          res.json({
+            code: 1,
+            status: 'success',
+            info: '登录成功',
+            type: 1,
+            mess: req.body,
+            allmess: detail
+          })
+        } else {
+          res.json({
+            code: 0,
+            status: 'error',
+            info: '密码有误',
+          })
+        }
+      } else {
+        res.json({
+          code: 0,
+          status: 'error',
+          info: '用户名不存在',
+        })
+      }
+    }
+
+  } catch (error) {
+    res.json({
+      code: 0,
+      status: error,
+      info: '登录失败'
+    })
+  }
+
+})
+
 /* *****管理员操作****** */
 
 // 1. 管理员列表页面
 router.get('/admin/AdminList', async (req, res) => {
   try {
-    const admins = await Admin.find({});
+    //console.log()
+    var data = {}
+    if (req.query.major_name) {
+      data.major_name = new RegExp(req.query.major_name)
+    }
+    //console.log(data)
+    const admins = await Admin.find(data);
     res.json({
       code: 1,
       status: 'success',
-      info: '成功',
-      result: admins
+      info: admins
     })
   } catch (error) {
     res.json({
@@ -24,11 +89,6 @@ router.get('/admin/AdminList', async (req, res) => {
   }
 })
 
-/* //添加管理员页面
-router.get('/admin/addAdmin',(req,res)=>{
-  res.render('admin/Add_Admin');
-}) */
-
 // 2. 获取新增管理员信息
 router.post('/admin/creatAdmin', async (req, res) => {
   try {
@@ -37,9 +97,8 @@ router.post('/admin/creatAdmin', async (req, res) => {
     const p = new Admin({
       admin_id: req.body.admin_id,
       admin_pwd: "000000",
-      admin_name: req.body.admin_name,
       major_name: req.body.major_name,
-      type: 1
+      type: 2
     })
     await p.save();
     res.json({
@@ -83,7 +142,6 @@ router.post('/admin/ModifyAdmin', async (req, res) => {
     await Admin.findByIdAndUpdate({ _id: req.body.id }, {
       admin_id: req.body.admin_login,
       admin_pwd: req.body.admin_pwd,
-      admin_name: req.body.admin_name,
       major_name: req.body.major_name,
     })
 
@@ -108,6 +166,7 @@ router.post('/admin/ModifyAdmin', async (req, res) => {
 //学院列表
 router.get('/majorList', async function (req, res) {
   try {
+    var quertInfo = {}
     if (req.query.major_name) {
       // 按学院名查询
       quertInfo.major_name = new RegExp(req.query.major_name)
@@ -149,14 +208,14 @@ router.post('/majorAdd', async (req, res) => {
     if (count > 0) {
       res.json({
         code: 0,
-        info: '学院名已存在',
+        info: '学院名已存在!!',
       })
     } else {
       var major = new Major(req.body);
       await major.save();
       res.json({
         code: 1,
-        info: '添加成功',
+        info: '添加成功!!',
       })
     }
   } catch (error) {
@@ -343,65 +402,6 @@ router.post('/teacherMod/:id', async (req, res) => {
   }
 })
 
-//登录
-router.post('/admin_login', async (req, res) => {
-  try {
-    // console.log(req.body)
-    if (!req.body.username || !req.body.password) {
-      res.json({
-        code: 0,
-        status: 'error',
-        info: '用户名或密码不能为空！'
-      })
-      return;
-    }
-    if (req.body.username == 'admin' && req.body.password == 'admin') {
-      res.json({
-        code: 1,
-        status: 'success',
-        info: '登录成功',
-        type: 0,
-        mess: req.body
-      })
-    } else {
-
-      const detail = await Teacher.findOne({ 'tid': req.body.username })
-      if (detail) {
-        // console.log(count)
-        if (detail.tpwd == req.body.password) {
-          res.json({
-            code: 1,
-            status: 'success',
-            info: '登录成功',
-            type: 1,
-            mess: req.body,
-            allmess: detail
-          })
-        } else {
-          res.json({
-            code: 0,
-            status: 'error',
-            info: '密码有误',
-          })
-        }
-      } else {
-        res.json({
-          code: 0,
-          status: 'error',
-          info: '用户名不存在',
-        })
-      }
-    }
-
-  } catch (error) {
-    res.json({
-      code: 0,
-      status: error,
-      info: '登录失败'
-    })
-  }
-
-})
 /* ****************排课信息管理****************** */
 //排课列表
 router.get('/schedule/list', async (req, res) => {

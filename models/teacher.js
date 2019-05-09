@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const TeacherSchema = new Schema({
+  /* calssId: {
+    type: Schema.Types.objectId,
+    ref: 'schedule'
+  }, */
   tid: {   //账号
     type: String,
     required: true
