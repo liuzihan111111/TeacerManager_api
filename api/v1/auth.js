@@ -108,13 +108,11 @@ router.post('/admin/ModifyAdmin', async (req, res) => {
 //学院列表
 router.get('/majorList', async function (req, res) {
   try {
-    const list = await Major.find({});
-    res.json({
-      code: 1,
-      status: 'success',
-      info: '成功',
-      result: list
-    })
+    if (req.query.major_name) {
+      // 按学院名查询
+      quertInfo.major_name = new RegExp(req.query.major_name)
+    }
+    MajorQuery(req, quertInfo, res)
   } catch (error) {
     res.json({
       code: 0,
@@ -124,6 +122,25 @@ router.get('/majorList', async function (req, res) {
   }
 
 })
+async function MajorQuery(req, queryInfo, res) {
+  const allCount = await Major.countDocuments(queryInfo)
+  // console.log(allCount)
+  // console.log(req)
+  const page = req.query.page * 1 || 1;
+  const per = req.query.per * 1 || 10;
+  const majors = await Major.find(queryInfo).skip((page - 1) * per).limit(per);
+  const pageCount = Math.ceil(allCount / per);
+  res.json({
+    code: 1,
+    status: 'success',
+    info: {
+      allCount: allCount,
+      pageCount: pageCount,
+      page: 1,
+      list: majors
+    }
+  })
+}
 
 //添加学院信息
 router.post('/majorAdd', async (req, res) => {
@@ -135,7 +152,7 @@ router.post('/majorAdd', async (req, res) => {
         info: '学院名已存在',
       })
     } else {
-      var major = new Major({ major_name: req.body.major_name });
+      var major = new Major(req.body);
       await major.save();
       res.json({
         code: 1,
