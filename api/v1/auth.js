@@ -797,7 +797,26 @@ router.post('/login',async (req,res)=>{
 })
 */
 
-
+//教师基本信息分组
+router.get('/teacher/group/:query', async (req, res) => {
+  // console.log("$" + req.params.query)
+  const data = "$" + req.params.query
+  try {
+    const list = await Teacher.aggregate([{ $group: { _id: data, num: { $sum: 1 } } }])
+    // console.log(list)
+    res.json({
+      code: 1,
+      info: '分组成功',
+      mess: list,
+    })
+  } catch (error) {
+    res.json({
+      code: 0,
+      mess: "分组失败",
+      info: error,
+    })
+  }
+})
 
 
 
