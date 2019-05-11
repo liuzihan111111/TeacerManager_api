@@ -800,14 +800,15 @@ router.post('/login',async (req,res)=>{
 //教师基本信息分组
 router.get('/teacher/group/:query', async (req, res) => {
   // console.log("$" + req.params.query)
+  console.log(req.query)
   const data = "$" + req.params.query
   try {
-    const list = await Teacher.aggregate([{ $group: { _id: data, num: { $sum: 1 } } }])
+    const list = await Teacher.aggregate([{ $match: req.query }, { $group: { _id: data, num: { $sum: 1 } } }])
     // console.log(list)
     res.json({
       code: 1,
-      info: '分组成功',
-      mess: list,
+      mess: '分组成功',
+      info: list,
     })
   } catch (error) {
     res.json({
