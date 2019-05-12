@@ -157,8 +157,8 @@ router.delete('/admin/delete/:id', async (req, res) => {
 router.post('/admin/ModifyAdmin', async (req, res) => {
   try {
     console.log(req.body);
-    await Admin.findByIdAndUpdate({ _id: req.body.id }, {
-      admin_id: req.body.admin_login,
+    await Admin.findByIdAndUpdate({ _id: req.body._id }, {
+      admin_id: req.body.admin_id,
       admin_pwd: req.body.admin_pwd,
       major_name: req.body.major_name,
     })
