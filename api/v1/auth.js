@@ -1,6 +1,6 @@
 const express = require('express');
 //引入数据库表
-const { Admin, Major, Teacher, Schedule, Salary, Project } = require('../../models/index');
+const { Admin, Major, Teacher, Schedule, Salary, Project, Edu } = require('../../models/index');
 const router = express.Router();
 
 //登录
@@ -26,6 +26,7 @@ router.post('/admin_login', async (req, res) => {
     } else {
 
       const detail = await Teacher.findOne({ 'tid': req.body.username })
+      const admin = await Admin.findOne({ 'admin_id': req.body.username })
       if (detail) {
         // console.log(count)
         if (detail.tpwd == req.body.password) {
@@ -36,6 +37,23 @@ router.post('/admin_login', async (req, res) => {
             type: 1,
             mess: req.body,
             allmess: detail
+          })
+        } else {
+          res.json({
+            code: 0,
+            status: 'error',
+            info: '密码有误',
+          })
+        }
+      } else if (admin) {
+        if (admin.admin_pwd == req.body.password) {
+          res.json({
+            code: 1,
+            status: 'success',
+            info: '登录成功',
+            type: 2,
+            mess: req.body,
+            allmess: admin
           })
         } else {
           res.json({
@@ -318,7 +336,7 @@ async function FuzzyQuery(req, queryInfo, res) {
   // console.log(req)
   const page = req.query.page * 1 || 1;
   const per = req.query.per * 1 || 10;
-  const teachers = await Teacher.find(queryInfo).skip((page - 1) * per).limit(per);
+  const teachers = await Teacher.find(queryInfo).skip((page - 1) * per).limit(per).sort({ "tid": 1 });
   const pageCount = Math.ceil(allCount / per);
   res.json({
     code: 1,
@@ -403,7 +421,7 @@ router.post('/teacherMod/:id', async (req, res) => {
 })
 
 /* ****************排课信息管理****************** */
-//排课列表
+//授课列表
 router.get('/schedule/list', async (req, res) => {
   /*
     page 页码
@@ -447,7 +465,8 @@ async function ScheduleQuery(req, queryInfo, res) {
   // console.log(req)
   const page = req.query.page * 1 || 1;
   const per = req.query.per * 1 || 10;
-  const schedule = await Schedule.find(queryInfo).skip((page - 1) * per).limit(per);
+  const schedule = await Schedule.find(queryInfo).skip((page - 1) * per).limit(per).populate('t_id');
+  // console.log(schedule)
   const pageCount = Math.ceil(allCount / per);
   res.json({
     code: 1,
@@ -462,7 +481,7 @@ async function ScheduleQuery(req, queryInfo, res) {
 }
 
 
-//排课信息添加
+//授课信息添加
 router.post('/schedule/add', async (req, res) => {
   try {
     // let obj = { ...req.body };
@@ -482,7 +501,7 @@ router.post('/schedule/add', async (req, res) => {
   }
 })
 
-//排课信息删除
+//授课信息删除
 router.delete('/schedule/delete/:id', async (req, res) => {
   try {
     var id = req.params.id;
@@ -502,7 +521,7 @@ router.delete('/schedule/delete/:id', async (req, res) => {
 
 })
 
-//修改排课信息
+//修改授课信息
 router.post('/schedule/modify/:id', async (req, res) => {
   // console.log(req.body)
   try {
@@ -556,7 +575,7 @@ async function SalaryQuery(req, queryInfo, res) {
   // console.log(req)
   const page = req.query.page * 1 || 1;
   const per = req.query.per * 1 || 10;
-  const salary = await Salary.find(queryInfo).skip((page - 1) * per).limit(per);
+  const salary = await Salary.find(queryInfo).skip((page - 1) * per).limit(per).populate('t_id');
   const pageCount = Math.ceil(allCount / per);
   res.json({
     code: 1,
@@ -679,7 +698,7 @@ async function ProjectQuery(req, queryInfo, res) {
   // console.log(req)
   const page = req.query.page * 1 || 1;
   const per = req.query.per * 1 || 10;
-  const project = await Project.find(queryInfo).skip((page - 1) * per).limit(per);
+  const project = await Project.find(queryInfo).skip((page - 1) * per).limit(per).populate('t_id');
   const pageCount = Math.ceil(allCount / per);
   res.json({
     code: 1,
@@ -758,44 +777,118 @@ router.post('/project/modify/:id', async (req, res) => {
     })
   }
 })
-
-
-
-
-
-/*
-//登录接口
-router.post('/login',async (req,res)=>{
+/* ****************教育经历信息管理****************** */
+//教育经历列表
+router.get('/edu/list', async (req, res) => {
+  /*
+    page 页码
+    per 每页显示的数量
+    quertInfo{} 查询条件（模糊查询）
+   */
   try {
-    const userCount = await User.countDocuments({
-      userName:req.body.userName,
-      password:req.body.password
-    });
-    if(userCount>0){
-      //获取登录用户的信息
-      const userOne=await User.find({
-        userName:req.body.userName,
-        password:req.body.password});
-      res.json({
-        status:'success',
-        info:'登录成功',
-        mess:userOne,
-      })
-    }else{
-      res.json({
-        status:'error',
-        info:'登录失败'
-      })
+    const quertInfo = {}
+    if (req.query.tid) {
+      // 按工号查询
+      quertInfo.tid = new RegExp(req.query.tid)
     }
+    /*  if (req.query.subject_title) {
+       // 按项目名
+       quertInfo.subject_title = new RegExp(req.query.subject_title)
+     } */
+    EduQuery(req, quertInfo, res)
   } catch (error) {
     res.json({
-      st5atus:error,
-      info:'登录失败'
+      code: 0,
+      status: 'error',
+      info: error
+    })
+  }
+})
+async function EduQuery(req, queryInfo, res) {
+  const allCount = await Edu.countDocuments(queryInfo)
+  // console.log(allCount)
+  // console.log(req)
+  const page = req.query.page * 1 || 1;
+  const per = req.query.per * 1 || 10;
+  const edu = await Edu.find(queryInfo).skip((page - 1) * per).limit(per).populate('t_id');
+  const pageCount = Math.ceil(allCount / per);
+  res.json({
+    code: 1,
+    status: 'success',
+    info: {
+      allCount: allCount,
+      pageCount: pageCount,
+      page: 1,
+      list: edu
+    }
+  })
+}
+
+
+//项目信息添加
+/* router.post('/project/add', async (req, res) => {
+  try {
+    // console.log(req.body)
+    var project = new Project(req.body)
+    await project.save();
+    res.json({
+      code: 1,
+      status: "success",
+      info: "添加成功",
+    })
+  } catch (error) {
+    res.json({
+      code: 0,
+      status: 'error',
+      info: error,
+    })
+  }
+}) */
+
+//教育信息删除
+router.delete('/edu/delete/:id', async (req, res) => {
+  try {
+    var id = req.params.id;
+    await Edu.findByIdAndDelete({ _id: id });
+
+    res.json({
+      code: 1,
+      info: '删除成功'
+    })
+
+  } catch (error) {
+    res.json({
+      code: 0,
+      info: error
     })
   }
 
 })
-*/
+
+//修改项目信息
+router.post('/edu/modify/:id', async (req, res) => {
+  // console.log(req.body)
+  try {
+    var id = req.params.id;
+    // console.log(id)
+    await Edu.findByIdAndUpdate({
+      _id: id,
+    }, req.body, { upsert: true });
+
+    res.json({
+      code: 1,
+      info: "修改成功",
+      mess: req.body,  //返回修改后的数据
+    })
+
+  } catch (error) {
+    res.json({
+      code: 0,
+      mess: "修改失败",
+      info: error,
+    })
+  }
+})
 
 //教师基本信息分组
 router.get('/teacher/group/:query', async (req, res) => {

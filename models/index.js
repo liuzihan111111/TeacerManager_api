@@ -7,6 +7,7 @@ const Teacher = require('./teacher'); //教师表
 const Schedule = require('./schedule'); //排课信息表
 const Salary = require('./salary'); // 薪资表
 const Project = require('./project'); //项目表
+const Edu = require('./edu'); //教育经历
 
 
 
@@ -19,5 +20,6 @@ module.exports = {
   Teacher,
   Schedule,
   Salary,
-  Project
+  Project,
+  Edu
 }

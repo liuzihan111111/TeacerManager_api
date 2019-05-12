@@ -12,27 +12,30 @@ const ClassSchema = new Schema({
   },
   tid: {   //教师工号
     type: String,
-    required: true
-  },
-  tname: {   //教师名
-    type: String,
-    required: true
-  },
-  ClassTime: {   //上课时间
-    type: String,
-    required: true
-  },
-  ClassPlace: {   //上课班级
-    type: String,
-    required: true
+    required: true,
   },
   ClassHour: {   // 课时
     type: String,
     required: true
   },
-  Student: {
+  Student: {   // 授课班级
     type: String,
     required: true
+  },
+  Number: {  // 总人数
+    type: Number,
+    required: true
+  },
+  type: {  // 授课层次
+    type: String,
+    required: true
+  },
+  term: {  // 学年
+    type: String,
+    required: true
+  },
+  t_id: {  // 外键 教师表
+    type: mongoose.Schema.Types.ObjectId, ref: "teacher"
   }
 }, {
     timestamps: true,

@@ -15,7 +15,10 @@ const SalarySchema = new Schema({
   bonus: Number,// 奖金
   allowance: Number, // 津贴
   other: Number, // 其他
-  mark: String // 备注
+  mark: String, // 备注
+  t_id: {  // 外键 教师表
+    type: mongoose.Schema.Types.ObjectId, ref: "teacher"
+  }
 })
 
 const Salary = mongoose.model('salary', SalarySchema);
