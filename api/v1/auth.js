@@ -865,15 +865,12 @@ router.delete('/edu/delete/:id', async (req, res) => {
 
 })
 
-//修改项目信息
-router.post('/edu/modify/:id', async (req, res) => {
+//修改教育信息
+router.post('/edu/modify', async (req, res) => {
   // console.log(req.body)
   try {
-    var id = req.params.id;
     // console.log(id)
-    await Edu.findByIdAndUpdate({
-      _id: id,
-    }, req.body, { upsert: true });
+    await Edu.findOneAndUpdate({ tid: req.body.tid }, req.body, { upsert: true });
 
     res.json({
       code: 1,
