@@ -498,12 +498,6 @@
         status: "success",
         info: "添加成功"
       }
-    已存在
-    {
-        code: 2,
-        status: 'error',
-        info: "该教师工号已经存在"
-      }
     失败
       {
         code: 0,
