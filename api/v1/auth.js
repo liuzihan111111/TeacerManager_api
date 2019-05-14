@@ -91,6 +91,12 @@ router.get('/admin/AdminList', async (req, res) => {
     if (req.query.major_name) {
       data.major_name = new RegExp(req.query.major_name)
     }
+    if (req.query.admin_id) {
+      data.admin_id = new RegExp(req.query.admin_id)
+    }
+    if (req.query.admin_pwd) {
+      data.admin_pwd = new RegExp(req.query.admin_pwd)
+    }
     //console.log(data)
     const admins = await Admin.find(data);
     res.json({
@@ -154,15 +160,12 @@ router.delete('/admin/delete/:id', async (req, res) => {
 })
 
 // 4. 修改管理员信息
-router.post('/admin/ModifyAdmin', async (req, res) => {
+router.post('/admin/ModifyAdmin/:id', async (req, res) => {
   try {
+    var id = req.params.id;
+    console.log(id)
     console.log(req.body);
-    await Admin.findByIdAndUpdate({ _id: req.body._id }, {
-      admin_id: req.body.admin_id,
-      admin_pwd: req.body.admin_pwd,
-      major_name: req.body.major_name,
-    })
-
+    await Admin.findByIdAndUpdate({ _id: id }, req.body)
     res.json({
       code: 1,
       info: "修改成功",
@@ -320,6 +323,10 @@ router.get('/teacherList', async (req, res) => {
     if (req.query.duty) {
       // 按职称查询
       quertInfo.duty = new RegExp(req.query.duty)
+    }
+    if (req.query.tpwd) {
+      // 修改密码
+      quertInfo.tpwd = new RegExp(req.query.tpwd)
     }
     FuzzyQuery(req, quertInfo, res)
   } catch (error) {
