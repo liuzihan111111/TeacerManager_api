@@ -436,6 +436,7 @@ router.get('/schedule/list', async (req, res) => {
     quertInfo{} 查询条件（模糊查询）
    */
   try {
+    console.log(req.query)
     const quertInfo = {}
     if (req.query.tid) {
       // 按工号查询
@@ -467,12 +468,18 @@ router.get('/schedule/list', async (req, res) => {
   }
 })
 async function ScheduleQuery(req, queryInfo, res) {
+  var data = {}
+  if (req.query.major_name) {
+    data = { major_name: req.query.major_name }
+  }
   const allCount = await Schedule.countDocuments(queryInfo)
-  // console.log(allCount)
-  // console.log(req)
   const page = req.query.page * 1 || 1;
   const per = req.query.per * 1 || 10;
-  const schedule = await Schedule.find(queryInfo).skip((page - 1) * per).limit(per).populate('t_id');
+  const schedule = await Schedule.find(queryInfo).skip((page - 1) * per).limit(per).sort({ "tid": 1 }).populate({
+    path: 't_id',
+    select: '_id tid tname major_name',
+    match: data
+  })
   // console.log(schedule)
   const pageCount = Math.ceil(allCount / per);
   res.json({
@@ -577,12 +584,20 @@ router.get('/salary/list', async (req, res) => {
   }
 })
 async function SalaryQuery(req, queryInfo, res) {
+  var data = {}
+  if (req.query.major_name) {
+    data.major_name = req.query.major_name
+  }
   const allCount = await Salary.countDocuments(queryInfo)
   // console.log(allCount)
   // console.log(req)
   const page = req.query.page * 1 || 1;
   const per = req.query.per * 1 || 10;
-  const salary = await Salary.find(queryInfo).skip((page - 1) * per).limit(per).populate('t_id');
+  const salary = await Salary.find(queryInfo).skip((page - 1) * per).limit(per).sort({ "tid": 1 }).populate({
+    path: 't_id',
+    select: '_id tid tname major_name',
+    match: data
+  });
   const pageCount = Math.ceil(allCount / per);
   res.json({
     code: 1,
@@ -689,12 +704,20 @@ router.get('/project/list', async (req, res) => {
   }
 })
 async function ProjectQuery(req, queryInfo, res) {
+  var data = {}
+  if (req.query.major_name) {
+    data.major_name = req.query.major_name
+  }
   const allCount = await Project.countDocuments(queryInfo)
   // console.log(allCount)
   // console.log(req)
   const page = req.query.page * 1 || 1;
   const per = req.query.per * 1 || 10;
-  const project = await Project.find(queryInfo).skip((page - 1) * per).limit(per).populate('t_id');
+  const project = await Project.find(queryInfo).skip((page - 1) * per).limit(per).sort({ "tid": 1 }).populate({
+    path: 't_id',
+    select: '_id tid tname major_name',
+    match: data
+  });;
   const pageCount = Math.ceil(allCount / per);
   res.json({
     code: 1,
@@ -806,7 +829,7 @@ async function EduQuery(req, queryInfo, res) {
   // console.log(req)
   const page = req.query.page * 1 || 1;
   const per = req.query.per * 1 || 10;
-  const edu = await Edu.find(queryInfo).skip((page - 1) * per).limit(per).populate('t_id');
+  const edu = await Edu.find(queryInfo).skip((page - 1) * per).limit(per).sort({ "tid": 1 }).populate('t_id');
   const pageCount = Math.ceil(allCount / per);
   res.json({
     code: 1,

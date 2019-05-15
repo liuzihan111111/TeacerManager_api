@@ -32,7 +32,7 @@ app.use('/users', usersRouter);
 // 引入接口文件
 app.use('/api/v1/', require('./api/v1/auth'));
 // app.use('/api/v1/schedule/', require('./api/v1/schedule'));
-
+app.use('/api/v2/common', require('./api/v1/common'));
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
