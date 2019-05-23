@@ -14,6 +14,8 @@ const projectSchema = new Schema({
     type: String,
     required: true
   },
+  subject_type: String, // 项目层级
+  subject_from: String,//经费来源
   subject_time: String,  // 时长
   subject_funding: Number, // 经费
   subject_desc: String, // 科研描述

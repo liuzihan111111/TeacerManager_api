@@ -14,6 +14,10 @@ const ClassSchema = new Schema({
     type: String,
     required: true,
   },
+  score: {   //学分
+    type: String,
+    required: true,
+  },
   ClassHour: {   // 课时
     type: String,
     required: true
