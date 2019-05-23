@@ -361,7 +361,7 @@ async function FuzzyQuery(req, queryInfo, res) {
 //教师信息添加
 router.post('/teacherAdd', async (req, res) => {
   try {
-    let obj = { ...req.body };;
+    let obj = { ...req.body };
     obj.tpwd = '000000';
     console.log(obj)
     var teacher = new Teacher(obj)
@@ -909,7 +909,8 @@ router.post('/edu/modify', async (req, res) => {
 //教师基本信息分组
 router.get('/teacher/group/:query', async (req, res) => {
   // console.log("$" + req.params.query)
-  console.log(req.query)
+  // console.log(req.query)
+  const allCount = await Teacher.countDocuments(req.query)
   const data = "$" + req.params.query
   try {
     const list = await Teacher.aggregate([{ $match: req.query }, { $group: { _id: data, num: { $sum: 1 } } }])
@@ -917,7 +918,10 @@ router.get('/teacher/group/:query', async (req, res) => {
     res.json({
       code: 1,
       mess: '分组成功',
-      info: list,
+      info: {
+        allCount,
+        list
+      },
     })
   } catch (error) {
     res.json({
