@@ -6,21 +6,26 @@ const projectSchema = new Schema({
     type: String,
     required: true
   },
-  /*   tname: {  //姓名
-      type: String,
-      required: true
-    }, */
-  subject_title: { // 课题名称
+  subject_title: { // 成果名
     type: String,
     required: true
   },
-  subject_type: String, // 项目层级
-  subject_from: String,//经费来源
-  subject_time: String,  // 时长
-  subject_funding: Number, // 经费
-  subject_desc: String, // 科研描述
+  subject_type: {  // 成果类别
+    type: String,
+    required: true
+  },
+  subject_level: { //级别
+    type: String,
+    required: true
+  },
+  subject_peoples: String,  //主要完成人
+  subject_time: { // 完成时间
+    type: String,
+    required: true
+  },
+  subject_win: String, // 获奖情况
+  note: String, // 备注
   check: Number,  // 审核状态  0未审核，1审核通过，2审核不通过
-  apply_time: String, // 申请时间
   check_time: String, // 审核时间
   src: String,  // 材料证明
   mark: String,  // 审核说明
