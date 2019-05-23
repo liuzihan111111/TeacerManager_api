@@ -676,8 +676,8 @@ router.post('/salary/modify/:id', async (req, res) => {
   }
 })
 
-/* ****************项目信息管理****************** */
-//项目列表
+/* ****************科研成果信息管理****************** */
+//科研成果列表
 router.get('/project/list', async (req, res) => {
   /*
     page 页码
@@ -693,6 +693,14 @@ router.get('/project/list', async (req, res) => {
     if (req.query.subject_title) {
       // 按项目名
       quertInfo.subject_title = new RegExp(req.query.subject_title)
+    }
+    if (req.query.subject_type) {
+      // 按成果类别
+      quertInfo.subject_type = new RegExp(req.query.subject_type)
+    }
+    if (req.query.subject_time) {
+      // 按完成时间
+      quertInfo.subject_time = new RegExp(req.query.subject_time)
     }
     ProjectQuery(req, quertInfo, res)
   } catch (error) {
