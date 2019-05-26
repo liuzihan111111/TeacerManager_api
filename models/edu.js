@@ -15,6 +15,7 @@ const EduSchema = new Schema({
   edu3_name: String,  // 博士
   edu3_school: String,
   edu3_time: String,
+  src: String,// 材料证明
   t_id: {  // 外键 教师表
     type: mongoose.Schema.Types.ObjectId, ref: "teacher"
   }

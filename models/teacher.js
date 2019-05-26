@@ -27,7 +27,8 @@ const TeacherSchema = new Schema({
   major_name: String,
   duty: String, //职务
   tel: String,//电话
-  remark: String //备注
+  remark: String, //备注
+  check: Number,  // 审核状态  0未审核，1审核通过，2审核不通过
 }, {
     timestamps: true,
   });

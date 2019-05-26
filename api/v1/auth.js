@@ -442,22 +442,22 @@ router.get('/schedule/list', async (req, res) => {
       // 按工号查询
       quertInfo.tid = new RegExp(req.query.tid)
     }
-    if (req.query.tname) {
+    if (req.query.type) {
       // 按姓名查询
-      quertInfo.tname = new RegExp(req.query.tname)
+      quertInfo.type = new RegExp(req.query.type)
     }
     if (req.query.cname) {
       // 按课程名
       quertInfo.cname = new RegExp(req.query.cname)
     }
-    if (req.query.ClassPlace) {
-      // 按上课地点
-      quertInfo.ClassPlace = new RegExp(req.query.ClassPlace)
-    }
-    if (req.query.Student) {
-      // 按班级查询
-      quertInfo.Student = new RegExp(req.query.Student)
-    }
+    /*  if (req.query.ClassPlace) {
+       // 按上课地点
+       quertInfo.ClassPlace = new RegExp(req.query.ClassPlace)
+     }
+     if (req.query.Student) {
+       // 按班级查询
+       quertInfo.Student = new RegExp(req.query.Student)
+     } */
     ScheduleQuery(req, quertInfo, res)
   } catch (error) {
     res.json({
