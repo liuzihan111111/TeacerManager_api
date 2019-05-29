@@ -256,7 +256,8 @@ router.post('/majorMod/:id', async (req, res) => {
     await Major.findByIdAndUpdate({
       _id: id,
     }, {
-        major_name: req.body.major_name
+        major_name: req.body.major_name,
+        major_dec: req.body.major_dec
       });
 
     res.json({
